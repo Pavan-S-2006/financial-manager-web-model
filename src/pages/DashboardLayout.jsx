@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
-import { LayoutDashboard, Menu, Wallet, LineChart, Activity, X, Settings, LogOut } from 'lucide-react';
+import {
+    LayoutDashboard, X, Settings, LogOut,
+    Brain, FlaskConical, Shield, Landmark, Siren,
+    Users, Bell, BookOpen
+} from 'lucide-react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 
 const DashboardLayout = () => {
@@ -8,98 +12,141 @@ const DashboardLayout = () => {
 
     const navItems = [
         { icon: <LayoutDashboard size={20} />, label: 'Dashboard', path: '/dashboard' },
-        { icon: <Wallet size={20} />, label: 'Budgets', path: '/dashboard/budgets' },
-        { icon: <LineChart size={20} />, label: 'Investments', path: '/dashboard/invest' },
-        { icon: <Activity size={20} />, label: 'Health Score', path: '/dashboard/score' },
+        { icon: <Brain size={20} />, label: 'AI Financial Insights', path: '/dashboard/ai-insights' },
+        { icon: <FlaskConical size={20} />, label: 'Expenditure Sandbox', path: '/dashboard/sandbox' },
+        { icon: <Shield size={20} />, label: 'Insurance Suggester', path: '/dashboard/insurance' },
+        { icon: <Landmark size={20} />, label: 'Assets & Property', path: '/dashboard/assets' },
+        { icon: <Siren size={20} />, label: 'Nominee Emergency', path: '/dashboard/emergency' },
+        { icon: <Users size={20} />, label: 'Profiles & Controls', path: '/dashboard/profiles' },
+        { icon: <Bell size={20} />, label: 'Smart Notifications', path: '/dashboard/notifications' },
+        { icon: <BookOpen size={20} />, label: 'Financial Literacy', path: '/dashboard/literacy' },
     ];
 
     return (
-        <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-core)' }}>
-            {/* ☰ Side Shell */}
+        <div style={{
+            position: 'relative',
+            minHeight: '100vh',
+            display: 'flex',
+            background: 'var(--bg-app)', // Standard app background
+        }}>
+            {/* ☰ Sidebar - Neo-Shaded Panel */}
             <aside
                 className="glass-panel"
                 style={{
-                    position: 'fixed',
-                    left: 0, top: 0, bottom: 0,
-                    width: '280px',
-                    transform: isSidebarOpen ? 'translateX(0)' : 'translateX(-100%)',
-                    transition: 'transform 0.3s var(--ease-spring)',
-                    zIndex: 100,
-                    padding: '2rem',
+                    position: isSidebarOpen ? 'absolute' : 'relative',
+                    width: '300px',
+                    height: '100vh',
+                    zIndex: 20,
+                    borderRadius: '0', // Full height borders usually look better flat
+                    borderTop: 'none', borderBottom: 'none', borderLeft: 'none', // Only right border
                     display: 'flex',
-                    flexDirection: 'column'
+                    flexDirection: 'column',
+                    padding: '1.5rem',
+                    background: 'var(--bg-panel)', // Solid dark panel
+                    borderRight: '1px solid var(--border-subtle)',
+                    boxShadow: '4px 0 24px rgba(0,0,0,0.2)'
                 }}
             >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '3rem' }}>
-                    <h2 style={{ margin: 0, fontSize: '1.8rem', letterSpacing: '-1px' }}>QWERTY<span style={{ color: 'var(--brand-primary)' }}>.</span></h2>
-                    <button onClick={() => setSidebarOpen(false)} style={{ background: 'none', border: 'none', color: 'white', cursor: 'pointer' }}>
-                        <X />
-                    </button>
+                    <h2 style={{ margin: 0, fontSize: '1.5rem', letterSpacing: '-0.05em', color: 'var(--text-primary)' }}>
+                        QWERTY<span style={{ color: 'var(--primary-brand)' }}>.</span>
+                    </h2>
+                    {/* Mobile Close Button */}
+                    <div className="md:hidden" style={{ display: 'none' }}>
+                        <button onClick={() => setSidebarOpen(false)} style={{ background: 'none', border: 'none', color: 'white' }}><X /></button>
+                    </div>
                 </div>
 
-                <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', flex: 1 }}>
-                    {navItems.map((item) => (
-                        <Link
-                            key={item.path}
-                            to={item.path}
-                            className="text-secondary"
-                            style={{
-                                display: 'flex',
-                                gap: '12px',
-                                alignItems: 'center',
-                                textDecoration: 'none',
-                                color: location.pathname === item.path ? 'white' : 'var(--text-secondary)',
-                                background: location.pathname === item.path ? 'rgba(255,255,255,0.08)' : 'transparent',
-                                padding: '12px',
-                                borderRadius: '12px',
-                                fontWeight: location.pathname === item.path ? '600' : '400',
-                                transition: 'all 0.2s'
-                            }}
-                        >
-                            {item.icon} {item.label}
-                        </Link>
-                    ))}
+                <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', flex: 1, paddingBottom: '1rem', overflowY: 'auto' }}>
+                    {navItems.map((item) => {
+                        const isActive = location.pathname === item.path;
+                        return (
+                            <Link
+                                key={item.path}
+                                to={item.path}
+                                style={{
+                                    display: 'flex',
+                                    gap: '12px',
+                                    alignItems: 'center',
+                                    textDecoration: 'none',
+                                    color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)',
+                                    background: isActive ? 'var(--bg-panel-hover)' : 'transparent',
+                                    padding: '12px 16px',
+                                    borderRadius: '12px',
+                                    fontWeight: isActive ? '500' : '400',
+                                    transition: 'all 0.2s',
+                                    fontSize: '0.9rem',
+                                    boxShadow: isActive ? 'var(--shadow-inset)' : 'none',
+                                    borderLeft: isActive ? '3px solid var(--primary-brand)' : '3px solid transparent'
+                                }}
+                            >
+                                <span style={{ color: isActive ? 'var(--primary-brand)' : 'currentColor', opacity: isActive ? 1 : 0.7 }}>
+                                    {item.icon}
+                                </span>
+                                {item.label}
+                            </Link>
+                        );
+                    })}
                 </nav>
 
-                <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '1rem' }}>
-                    <Link to="#" style={{ display: 'flex', gap: '12px', padding: '12px', color: 'var(--text-secondary)', textDecoration: 'none' }}>
+                <div style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: '1.5rem', marginTop: 'auto' }}>
+                    <Link to="/dashboard/settings" style={{ display: 'flex', gap: '12px', padding: '12px', color: 'var(--text-secondary)', textDecoration: 'none', alignItems: 'center', fontSize: '0.9rem' }}>
                         <Settings size={20} /> Settings
                     </Link>
-                    <Link to="/" style={{ display: 'flex', gap: '12px', padding: '12px', color: '#ff5c5c', textDecoration: 'none' }}>
+                    <Link to="/" style={{ display: 'flex', gap: '12px', padding: '12px', color: 'var(--accent-red)', textDecoration: 'none', alignItems: 'center', fontSize: '0.9rem' }}>
                         <LogOut size={20} /> Logout
                     </Link>
                 </div>
             </aside>
 
             {/* Main Content Area */}
-            <main style={{ flex: 1, padding: '2rem', paddingLeft: isSidebarOpen ? '2rem' : '2rem', marginLeft: isSidebarOpen ? '280px' : '0', transition: 'margin-left 0.3s var(--ease-spring)' }}>
-                <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '3rem' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                        {!isSidebarOpen && (
-                            <button onClick={() => setSidebarOpen(true)} style={{ background: 'rgba(255,255,255,0.05)', border: 'none', color: 'white', cursor: 'pointer', padding: '8px', borderRadius: '8px' }}>
-                                <Menu size={24} />
-                            </button>
-                        )}
-                        <h2 style={{ margin: 0, fontSize: '1.25rem', opacity: 0.8 }}>
-                            {location.pathname === '/dashboard' && 'Overview'}
-                            {location.pathname === '/dashboard/notepad' && 'Notepad'}
-                            {location.pathname === '/dashboard/budgets' && 'Budget Planner'}
-                            {location.pathname === '/dashboard/invest' && 'Investments'}
-                            {location.pathname === '/dashboard/score' && 'Financial Health'}
+            <main style={{
+                flex: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                height: '100vh',
+                overflow: 'hidden'
+            }}>
+                <header style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    padding: '1.5rem 2rem',
+                    borderBottom: '1px solid var(--border-subtle)',
+                    background: 'var(--bg-app)', // Blend with body
+                    zIndex: 10
+                }}>
+                    <div>
+                        <h2 style={{ margin: 0, fontSize: '1.75rem', color: 'var(--text-primary)' }}>
+                            {navItems.find(item => item.path === location.pathname)?.label || 'Dashboard Overview'}
                         </h2>
+                        <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+                            Welcome back, Pavan
+                        </span>
                     </div>
 
-                    <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                        <div className="desktop-only" style={{ textAlign: 'right' }}>
-                            <div style={{ fontWeight: 600 }}>Pavan Kumar</div>
-                            <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Premium User</div>
+                    <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+                        <button className="btn-icon">
+                            <Bell size={20} />
+                        </button>
+                        <div className="desktop-only" style={{ textAlign: 'right', color: 'var(--text-primary)' }}>
+                            <div style={{ fontWeight: 600, fontSize: '0.95rem' }}>Pavan Kumar</div>
+                            <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Premium User</div>
                         </div>
-                        <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'linear-gradient(135deg, #6366f1, #ec4899)', border: '2px solid rgba(255,255,255,0.2)' }}></div>
+                        <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'var(--bg-panel-hover)', border: '1px solid var(--border-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            {/* User Avatar Placeholder */}
+                            <span style={{ fontWeight: 700, color: 'var(--primary-brand)' }}>PK</span>
+                        </div>
                     </div>
                 </header>
 
-                {/* Dynamic Content */}
-                <Outlet />
+                <div style={{
+                    flex: 1,
+                    padding: '2rem',
+                    overflowY: 'auto'
+                }}>
+                    <Outlet />
+                </div>
 
             </main>
         </div>

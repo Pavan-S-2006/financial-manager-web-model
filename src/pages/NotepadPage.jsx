@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
-    Plus, Mic, Upload, Trash2, Edit2, AlertTriangle,
-    CheckCircle, Users, User, DollarSign, Calendar
+    Plus, Mic, Upload, Trash2, Edit2, CheckCircle, Users, User, DollarSign, Calendar
 } from 'lucide-react';
 
 const NotepadPage = () => {
@@ -31,9 +30,9 @@ const NotepadPage = () => {
 
     // 3. Alerts & Colors
     const getStatusColor = () => {
-        if (spendPercentage >= 90) return 'var(--gradient-danger)';
-        if (spendPercentage >= 75) return 'var(--gradient-warning)';
-        return 'var(--gradient-success)';
+        if (spendPercentage >= 90) return 'var(--accent-red)';
+        if (spendPercentage >= 75) return 'var(--accent-amber)';
+        return 'var(--accent-green)';
     };
 
     // 4. Handlers
@@ -119,23 +118,12 @@ const NotepadPage = () => {
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
                         <div>
                             <p style={{ color: 'var(--text-secondary)', margin: 0, fontSize: '0.9rem' }}>Monthly Spending</p>
-                            <h2 style={{ margin: '8px 0', fontSize: '2rem' }}>₹{totalSpent.toLocaleString()}</h2>
+                            <h2 style={{ margin: '8px 0', fontSize: '2rem' }} className="font-mono">₹{totalSpent.toLocaleString()}</h2>
                         </div>
                         <button
                             onClick={() => setIsFamilyMode(!isFamilyMode)}
-                            style={{
-                                cursor: 'pointer',
-                                background: isFamilyMode ? 'var(--brand-primary)' : 'rgba(255,255,255,0.1)',
-                                border: 'none',
-                                color: 'white',
-                                padding: '8px 16px',
-                                borderRadius: '20px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '8px',
-                                fontSize: '0.85rem',
-                                transition: 'all 0.3s ease'
-                            }}
+                            className={`btn-secondary ${isFamilyMode ? 'active' : ''}`}
+                            style={{ padding: '8px 16px', borderRadius: '20px', fontSize: '0.85rem' }}
                         >
                             {isFamilyMode ? <Users size={16} /> : <User size={16} />}
                             {isFamilyMode ? 'Family' : 'Personal'}
@@ -143,55 +131,52 @@ const NotepadPage = () => {
                     </div>
 
                     <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
-                        <span>Limit: ₹{currentBudget.toLocaleString()}</span>
-                        <span style={{ color: spendPercentage > 90 ? '#ef4444' : 'var(--brand-primary)' }}>{spendPercentage.toFixed(1)}% Used</span>
+                        <span>Limit: <span className="font-mono">₹{currentBudget.toLocaleString()}</span></span>
+                        <span style={{ color: spendPercentage > 90 ? 'var(--accent-red)' : 'var(--accent-green)' }}>{spendPercentage.toFixed(1)}% Used</span>
                     </div>
                 </div>
 
                 {/* Health Score */}
                 <div className="glass-panel" style={{ padding: '24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <div>
-                        <h3 style={{ margin: 0, fontSize: '1.2rem' }}>Financial Health</h3>
+                        <h3 style={{ margin: 0, fontSize: '1.2rem', color: 'var(--text-primary)' }}>Financial Health</h3>
                         <p style={{ color: 'var(--text-secondary)', margin: '4px 0 0 0' }}>Based on spending</p>
                     </div>
                     <div style={{
                         width: '80px', height: '80px', borderRadius: '50%',
-                        background: 'conic-gradient(var(--brand-primary) ' + healthScore + '%, rgba(255,255,255,0.1) 0)',
+                        background: 'conic-gradient(var(--accent-green) ' + healthScore + '%, var(--bg-panel-hover) 0)',
                         display: 'flex', alignItems: 'center', justifyContent: 'center'
                     }}>
-                        <div style={{ width: '65px', height: '65px', borderRadius: '50%', background: 'var(--bg-card)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>
-                            {healthScore}
+                        <div style={{ width: '65px', height: '65px', borderRadius: '50%', background: 'var(--bg-panel)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>
+                            <span className="font-mono" style={{ fontSize: '1.2rem' }}>{healthScore}</span>
                         </div>
                     </div>
                 </div>
 
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '350px 1fr', gap: '2rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'minmax(350px, 1fr) 2fr', gap: '2rem' }}>
 
                 {/* --- LEFT: ENTRY FORM --- */}
                 <div className="glass-panel" style={{ padding: '24px', height: 'fit-content' }}>
-                    <h3 style={{ marginTop: 0, marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <Plus size={20} className="text-gradient" /> {editingId ? 'Edit Expense' : 'New Entry'}
+                    <h3 style={{ marginTop: 0, marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-primary)' }}>
+                        <Plus size={20} style={{ color: 'var(--primary-brand)' }} /> {editingId ? 'Edit Expense' : 'New Entry'}
                     </h3>
 
                     <div style={{ display: 'grid', gap: '1rem' }}>
                         <input
                             name="name" value={formData.name} onChange={handleInputChange}
-                            className="glass-panel"
                             placeholder="Expense Name"
-                            style={{ width: '100%', padding: '12px', border: 'none', borderRadius: '8px', color: 'white', background: 'rgba(255,255,255,0.05)' }}
                         />
 
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                             <input
                                 name="amount" type="number" value={formData.amount} onChange={handleInputChange}
                                 placeholder="Amount ₹"
-                                style={{ width: '100%', padding: '12px', border: 'none', borderRadius: '8px', color: 'white', background: 'rgba(255,255,255,0.05)' }}
+                                className="font-mono" // Monospace for amount input
                             />
                             <select
                                 name="category" value={formData.category} onChange={handleInputChange}
-                                style={{ width: '100%', padding: '12px', border: 'none', borderRadius: '8px', color: 'white', background: 'rgba(255,255,255,0.05)' }}
                             >
                                 <option value="Food">Food</option>
                                 <option value="Transport">Transport</option>
@@ -204,35 +189,19 @@ const NotepadPage = () => {
                         <textarea
                             name="desc" value={formData.desc} onChange={handleInputChange}
                             placeholder="Short Description..."
-                            style={{ width: '100%', padding: '12px', border: 'none', borderRadius: '8px', color: 'white', background: 'rgba(255,255,255,0.05)', resize: 'vertical', minHeight: '80px' }}
+                            style={{ resize: 'vertical', minHeight: '80px' }}
                         />
 
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginTop: '0.5rem' }}>
                             <button
                                 onClick={handleVoiceEntry} disabled={isListening}
-                                style={{
-                                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
-                                    padding: '12px', borderRadius: '12px',
-                                    border: '1px solid rgba(255,255,255,0.1)',
-                                    background: isListening ? 'rgba(99, 102, 241, 0.2)' : 'rgba(255,255,255,0.03)',
-                                    color: isListening ? 'var(--brand-primary)' : 'var(--text-secondary)',
-                                    cursor: 'pointer', transition: 'all 0.2s',
-                                    fontWeight: 500
-                                }}
+                                className={`btn-secondary ${isListening ? 'active' : ''}`}
                             >
                                 <Mic size={18} /> {isListening ? 'Listening...' : 'Voice'}
                             </button>
                             <button
                                 onClick={handleFileEntry} disabled={isScanning}
-                                style={{
-                                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
-                                    padding: '12px', borderRadius: '12px',
-                                    border: '1px solid rgba(255,255,255,0.1)',
-                                    background: isScanning ? 'rgba(99, 102, 241, 0.2)' : 'rgba(255,255,255,0.03)',
-                                    color: isScanning ? 'var(--brand-primary)' : 'var(--text-secondary)',
-                                    cursor: 'pointer', transition: 'all 0.2s',
-                                    fontWeight: 500
-                                }}
+                                className={`btn-secondary ${isScanning ? 'active' : ''}`}
                             >
                                 <Upload size={18} /> {isScanning ? 'Scanning...' : 'Upload'}
                             </button>
@@ -250,12 +219,8 @@ const NotepadPage = () => {
                         {editingId && (
                             <button
                                 onClick={() => { setEditingId(null); setFormData({ name: '', desc: '', amount: '', category: 'Food' }); }}
-                                style={{
-                                    width: '100%', marginTop: '0.5rem', padding: '8px',
-                                    background: 'transparent', border: '1px solid rgba(255,255,255,0.1)',
-                                    borderRadius: '8px', color: 'var(--text-muted)',
-                                    cursor: 'pointer', fontSize: '0.85rem'
-                                }}
+                                className="btn-secondary"
+                                style={{ width: '100%', marginTop: '0.5rem', justifyContent: 'center' }}
                             >
                                 Cancel Edit
                             </button>
@@ -273,13 +238,13 @@ const NotepadPage = () => {
                             </h4>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                                 {items.map((item) => (
-                                    <div key={item.id} className="glass-panel" style={{ padding: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', transition: 'transform 0.2s' }}>
+                                    <div key={item.id} className="glass-panel" style={{ padding: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', transition: 'transform 0.2s', boxShadow: 'none', border: '1px solid var(--border-subtle)', background: 'var(--bg-app)' }}>
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                                            <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                                <DollarSign size={20} color="var(--brand-glow)" />
+                                            <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'var(--bg-panel-hover)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                                <DollarSign size={20} color="var(--primary-brand)" />
                                             </div>
                                             <div>
-                                                <h4 style={{ margin: 0 }}>{item.name}</h4>
+                                                <h4 style={{ margin: 0, color: 'var(--text-primary)' }}>{item.name}</h4>
                                                 <p style={{ margin: '4px 0 0 0', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
                                                     {item.category} • {item.desc}
                                                 </p>
@@ -287,13 +252,13 @@ const NotepadPage = () => {
                                         </div>
 
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-                                            <span style={{ fontWeight: 600, fontSize: '1.1rem' }}>₹{item.amount.toLocaleString()}</span>
+                                            <span className="font-mono" style={{ fontWeight: 600, fontSize: '1.1rem', color: 'var(--text-primary)' }}>₹{item.amount.toLocaleString()}</span>
                                             <div style={{ display: 'flex', gap: '8px' }}>
-                                                <button onClick={() => handleEdit(item)} style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', padding: '4px' }}>
-                                                    <Edit2 size={16} />
+                                                <button onClick={() => handleEdit(item)} className="btn-icon">
+                                                    <Edit2 size={18} />
                                                 </button>
-                                                <button onClick={() => handleDelete(item.id)} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', padding: '4px' }}>
-                                                    <Trash2 size={16} />
+                                                <button onClick={() => handleDelete(item.id)} className="btn-icon danger">
+                                                    <Trash2 size={18} />
                                                 </button>
                                             </div>
                                         </div>

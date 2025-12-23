@@ -6,8 +6,13 @@ import DashboardLayout from './pages/DashboardLayout';
 import DashboardHome from './pages/DashboardHome';
 import NotepadPage from './pages/NotepadPage';
 import BudgetPage from './pages/BudgetPage';
-import InvestPage from './pages/InvestPage';
-import ScorePage from './pages/ScorePage';
+import AiInsightsPage from './pages/AiInsightsPage';
+import SandboxPage from './pages/SandboxPage';
+import InsurancePage from './pages/InsurancePage';
+import AssetsPage from './pages/AssetsPage';
+import EmergencyPage from './pages/EmergencyPage';
+import ProfilesPage from './pages/ProfilesPage';
+import LiteracyPage from './pages/LiteracyPage';
 
 function App() {
   return (
@@ -19,10 +24,16 @@ function App() {
         {/* Dashboard Routes */}
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<DashboardHome />} />
+          <Route path="ai-insights" element={<AiInsightsPage />} />
+          <Route path="sandbox" element={<SandboxPage />} />
+          <Route path="insurance" element={<InsurancePage />} />
+          <Route path="assets" element={<AssetsPage />} />
+          <Route path="emergency" element={<EmergencyPage />} />
+          <Route path="profiles" element={<ProfilesPage />} />
+          <Route path="literacy" element={<LiteracyPage />} />
+          {/* Legacy Routes kept for safety or if linked internally */}
           <Route path="notepad" element={<NotepadPage />} />
           <Route path="budgets" element={<BudgetPage />} />
-          <Route path="invest" element={<InvestPage />} />
-          <Route path="score" element={<ScorePage />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />

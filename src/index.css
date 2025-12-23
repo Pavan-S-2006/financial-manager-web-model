@@ -8,70 +8,171 @@
 html,
 body {
   height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  font-family: var(--font-primary);
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* 🧬 Utility - Glassmorphism */
+/* 🧬 Utility - Neo-Shaded Panels (Replaces Glass) */
 .glass-panel {
-  background: var(--bg-glass);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: var(--glass-border);
-  box-shadow: var(--shadow-lg);
+  background: var(--bg-panel);
+  border: var(--border-subtle);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+  /* Subtle depth */
+  position: relative;
+  overflow: hidden;
+  /* Clean edges */
 }
 
 .glass-card {
-  background: var(--gradient-glass);
-  backdrop-filter: blur(8px);
-  border: var(--glass-border);
-  border-radius: var(--radius-lg);
-  transition: transform 0.2s var(--ease-spring), box-shadow 0.2s ease;
+  background: var(--bg-panel);
+  border: var(--border-subtle);
+  border-radius: 16px;
+  padding: 24px;
+  transition: all var(--transition-smooth);
 }
 
 .glass-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--glow-primary);
-  border-color: rgba(99, 102, 241, 0.3);
+  background: var(--bg-panel-hover);
+  border-color: var(--border-focus);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
-/* 🔘 Buttons */
+/* Financial Numbers Class - Use this for amounts/data */
+.font-mono {
+  font-family: var(--font-mono);
+  letter-spacing: -0.05em;
+}
+
+/* 🔘 Buttons - Matte & Trustworthy */
 .btn-primary {
-  background: var(--gradient-main);
-  color: white;
+  background: var(--primary-brand);
+  color: #fff;
   border: none;
   padding: 12px 24px;
-  border-radius: var(--radius-lg);
+  border-radius: 12px;
   font-weight: 600;
+  font-family: var(--font-primary);
   cursor: pointer;
-  transition: opacity 0.2s;
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+  /* No heavy glow by default */
+}
+
+.btn-primary:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+  box-shadow: var(--glow-primary);
+  /* Subtle colored glow on hover only */
 }
 
 .btn-primary:active {
-  transform: scale(0.98);
+  transform: translateY(0);
+}
+
+/* Secondary Button (Ghost/Outline Style) */
+.btn-secondary {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--text-secondary);
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.05);
+  /* Slight fill */
+  color: var(--text-primary);
+  border-color: var(--text-secondary);
+}
+
+.btn-secondary.active {
+  background: rgba(92, 139, 198, 0.15);
+  /* Muted blue tint */
+  color: var(--primary-brand);
+  border-color: var(--primary-brand);
+}
+
+/* Icon Button */
+.btn-icon {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-icon:hover {
+  background: rgba(255, 255, 255, 0.08);
+  /* Subtle circle bg */
+  color: var(--text-primary);
+}
+
+.btn-icon.danger:hover {
+  background: rgba(198, 92, 92, 0.15);
+  color: var(--accent-red);
 }
 
 /* ✍ Typography */
 h1,
 h2,
 h3 {
-  letter-spacing: -0.02em;
-  font-weight: 700;
+  letter-spacing: -0.03em;
+  font-weight: 600;
+  /* Inter SemiBold */
+  color: var(--text-primary);
 }
 
 h1 {
-  font-size: 3rem;
-  background: linear-gradient(to right, #fff, #94a3b8);
+  font-size: 2.5rem;
+}
+
+/* Subtle Gradient Text (Optional, keep minimal) */
+.text-gradient {
+  background: linear-gradient(to right, var(--text-primary), var(--text-secondary));
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.text-gradient {
-  background: var(--gradient-main);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+/* Form Elements Input Style */
+input,
+select,
+textarea {
+  background: var(--bg-input) !important;
+  border: var(--border-subtle) !important;
+  color: var(--text-primary) !important;
+  font-family: var(--font-primary) !important;
+  border-radius: 8px !important;
+  padding: 12px !important;
+  box-shadow: var(--shadow-inset) !important;
+  transition: var(--transition-fast);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--primary-brand) !important;
+  box-shadow: 0 0 0 1px var(--primary-brand) !important;
 }
 
 @media (min-width: 768px) {

@@ -7,67 +7,67 @@ const DashboardHome = () => {
         <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '2rem',
+            gap: '1.5rem',
             animation: 'fadeIn 0.5s ease-out'
         }}>
             {/* Block 1: Notepad */}
-            <div className="glass-card" style={{ padding: '2rem', minHeight: '220px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+            <div className="glass-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                 <div>
-                    <div style={{ background: 'rgba(99, 102, 241, 0.2)', width: 'fit-content', padding: '12px', borderRadius: '14px', marginBottom: '1.5rem' }}>
-                        <Wallet color="#818cf8" size={28} />
+                    <div style={{ background: 'var(--accent-blue-glow)', width: '48px', height: '48px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem', color: 'var(--accent-blue)' }}>
+                        <Wallet size={24} />
                     </div>
-                    <h3 style={{ fontSize: '1.5rem', margin: '0 0 0.5rem 0' }}>Track Spending</h3>
-                    <p style={{ color: 'var(--text-secondary)', margin: 0 }}>Log expenses & EMIs instantly.</p>
+                    <h3 style={{ fontSize: '1.25rem', margin: '0 0 0.5rem 0', color: 'var(--text-primary)' }}>Track Spending</h3>
+                    <p style={{ color: 'var(--text-secondary)', margin: 0, fontSize: '0.9rem' }}>Log all your daily expenses & EMIs instantly.</p>
                 </div>
-                <Link to="/dashboard/notepad" className="btn-primary" style={{ marginTop: 'auto', width: '100%', textAlign: 'center', textDecoration: 'none' }}>
-                    Open Notepad
+                <Link to="/dashboard/notepad" className="btn-primary" style={{ marginTop: '2rem', width: '100%', textAlign: 'center', textDecoration: 'none', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px' }}>
+                    Open Notepad <ArrowRight size={18} />
                 </Link>
             </div>
 
             {/* Block 2: Budgets */}
-            <div className="glass-card" style={{ padding: '2rem', minHeight: '220px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+            <div className="glass-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                 <div>
-                    <div style={{ background: 'rgba(236, 72, 153, 0.2)', width: 'fit-content', padding: '12px', borderRadius: '14px', marginBottom: '1.5rem' }}>
-                        <LayoutDashboard color="#f472b6" size={28} />
+                    <div style={{ background: 'var(--accent-red-glow)', width: '48px', height: '48px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem', color: 'var(--accent-red)' }}>
+                        <LayoutDashboard size={24} />
                     </div>
-                    <h3 style={{ fontSize: '1.5rem', margin: '0 0 0.5rem 0' }}>Plan Budgets</h3>
-                    <p style={{ color: 'var(--text-secondary)', margin: 0 }}>Allocate funds & track limits.</p>
+                    <h3 style={{ fontSize: '1.25rem', margin: '0 0 0.5rem 0', color: 'var(--text-primary)' }}>Plan Budgets</h3>
+                    <p style={{ color: 'var(--text-secondary)', margin: 0, fontSize: '0.9rem' }}>Allocate monthly funds & track limits.</p>
                 </div>
-                <Link to="/dashboard/budgets" className="btn-primary" style={{ marginTop: 'auto', width: '100%', background: 'rgba(255,255,255,0.1)', textAlign: 'center', textDecoration: 'none' }}>
+                <Link to="/dashboard/budgets" className="btn-secondary" style={{ marginTop: '2rem', width: '100%', textAlign: 'center', textDecoration: 'none' }}>
                     View Budgets
                 </Link>
             </div>
 
             {/* Block 3: Investments */}
-            <div className="glass-card" style={{ padding: '2rem', minHeight: '220px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+            <div className="glass-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                 <div>
-                    <div style={{ background: 'rgba(16, 185, 129, 0.2)', width: 'fit-content', padding: '12px', borderRadius: '14px', marginBottom: '1.5rem' }}>
-                        <LineChart color="#34d399" size={28} />
+                    <div style={{ background: 'var(--accent-green-glow)', width: '48px', height: '48px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem', color: 'var(--accent-green)' }}>
+                        <LineChart size={24} />
                     </div>
-                    <h3 style={{ fontSize: '1.5rem', margin: '0 0 0.5rem 0' }}>Grow Money</h3>
-                    <p style={{ color: 'var(--text-secondary)', margin: 0 }}>Investment sandbox & insurance.</p>
+                    <h3 style={{ fontSize: '1.25rem', margin: '0 0 0.5rem 0', color: 'var(--text-primary)' }}>Grow Money</h3>
+                    <p style={{ color: 'var(--text-secondary)', margin: 0, fontSize: '0.9rem' }}>Investment sandbox & portfolio analysis.</p>
                 </div>
-                <Link to="/dashboard/invest" className="btn-primary" style={{ marginTop: 'auto', width: '100%', background: 'rgba(255,255,255,0.1)', textAlign: 'center', textDecoration: 'none' }}>
+                <Link to="/dashboard/invest" className="btn-secondary" style={{ marginTop: '2rem', width: '100%', textAlign: 'center', textDecoration: 'none' }}>
                     Go to Investments
                 </Link>
             </div>
 
             {/* Block 4: Health Score */}
-            <div className="glass-card" style={{ padding: '2rem', minHeight: '220px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', border: '1px solid rgba(245, 158, 11, 0.3)' }}>
+            <div className="glass-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', border: '1px solid var(--accent-amber-glow)' }}>
                 <div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                        <div style={{ background: 'rgba(245, 158, 11, 0.2)', width: 'fit-content', padding: '12px', borderRadius: '14px', marginBottom: '1.5rem' }}>
-                            <Activity color="#fbbf24" size={28} />
+                        <div style={{ background: 'var(--accent-amber-glow)', width: '48px', height: '48px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem', color: 'var(--accent-amber)' }}>
+                            <Activity size={24} />
                         </div>
-                        <span style={{ background: '#10b981', color: 'white', padding: '4px 12px', borderRadius: '20px', fontSize: '0.8rem', fontWeight: '600' }}>+2.4%</span>
+                        <span className="font-mono" style={{ background: 'rgba(104, 166, 125, 0.2)', color: 'var(--accent-green)', padding: '4px 8px', borderRadius: '8px', fontSize: '0.8rem', fontWeight: '600' }}>+2.4%</span>
                     </div>
-                    <h3 style={{ fontSize: '1.5rem', margin: '0 0 0.5rem 0' }}>Financial Health</h3>
+                    <h3 style={{ fontSize: '1.25rem', margin: '0 0 0.5rem 0', color: 'var(--text-primary)' }}>Financial Health</h3>
                     <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
-                        <span style={{ fontSize: '3rem', fontWeight: 'bold', lineHeight: '1' }}>82</span>
-                        <span style={{ color: '#10b981', fontWeight: '500' }}>Excellent</span>
+                        <span className="font-mono" style={{ fontSize: '2.5rem', fontWeight: 'bold', lineHeight: '1', color: 'var(--text-primary)' }}>82</span>
+                        <span style={{ color: 'var(--accent-green)', fontWeight: '500', fontSize: '0.9rem' }}>Excellent</span>
                     </div>
                 </div>
-                <Link to="/dashboard/score" className="btn-primary" style={{ marginTop: 'auto', width: '100%', background: 'var(--gradient-warning)', textAlign: 'center', textDecoration: 'none', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px' }}>
+                <Link to="/dashboard/score" className="btn-primary" style={{ marginTop: '2rem', width: '100%', background: 'var(--accent-amber)', color: '#121214', textAlign: 'center', textDecoration: 'none', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px' }}>
                     Check Analysis <ArrowRight size={18} />
                 </Link>
             </div>
