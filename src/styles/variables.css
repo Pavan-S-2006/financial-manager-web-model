@@ -1,0 +1,53 @@
+:root {
+  /* 🌑 Core Colors - Deep Space Theme */
+  --bg-core: #050507;
+  --bg-surface: #12121A;
+  --bg-card: #1C1C26;
+  --bg-glass: rgba(28, 28, 38, 0.7);
+
+  /* 🎨 Brand Accents */
+  --brand-primary: #6366f1;
+  /* Indigo 500 */
+  --brand-glow: #818cf8;
+  --accent-cyan: #06b6d4;
+  --accent-pink: #ec4899;
+
+  /* 🌈 Status Gradients */
+  --gradient-main: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+  --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  --gradient-warning: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  --gradient-danger: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+  --gradient-glass: linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+
+  /* 🔤 Typography */
+  --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+
+  /* 💡 Effects */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.3);
+  --glow-primary: 0 0 20px rgba(99, 102, 241, 0.3);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  /* 🚀 Animations */
+  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* 🌗 Light Mode Override (Future proofing, but User wants Premium Dark primarily) */
+@media (prefers-color-scheme: light) {
+  /* Kept minimal as user requested Premium Dark aesthetic mostly */
+}
+
+body {
+  background-color: var(--bg-core);
+  color: var(--text-primary);
+  font-family: var(--font-main);
+  margin: 0;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
