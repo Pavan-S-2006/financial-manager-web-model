@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     LayoutDashboard, X, Settings, LogOut,
     Brain, FlaskConical, Shield, Landmark, Siren,
@@ -9,6 +9,33 @@ import { Link, Outlet, useLocation } from 'react-router-dom';
 const DashboardLayout = () => {
     const [isSidebarOpen, setSidebarOpen] = useState(false);
     const location = useLocation();
+
+    // Default Bg
+    const [bgImage, setBgImage] = useState('https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=2600'); // Abstract Data
+
+    // Dynamic Background Logic
+    useEffect(() => {
+        const path = location.pathname;
+        if (path === '/dashboard') {
+            setBgImage('https://images.unsplash.com/photo-1642543492481-44e81e3914a7?auto=format&fit=crop&q=80&w=2600'); // Neo Fintech
+        } else if (path.includes('ai-insights')) {
+            setBgImage('https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=2600'); // AI Brain
+        } else if (path.includes('sandbox')) {
+            setBgImage('https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&q=80&w=2600'); // Blueprint/Labs
+        } else if (path.includes('insurance')) {
+            setBgImage('https://images.unsplash.com/photo-1516738901171-8f4fc48aef02?auto=format&fit=crop&q=80&w=2600'); // Shield/Safe
+        } else if (path.includes('assets')) {
+            setBgImage('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2600'); // Buildings
+        } else if (path.includes('emergency')) {
+            setBgImage('https://images.unsplash.com/photo-1541560052-77ec1bbc09f7?auto=format&fit=crop&q=80&w=2600'); // Alert/Red
+        } else if (path.includes('profiles')) {
+            setBgImage('https://images.unsplash.com/photo-1554672723-b208dc85134f?auto=format&fit=crop&q=80&w=2600'); // Desk/Organization
+        } else if (path.includes('literacy')) {
+            setBgImage('https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&q=80&w=2600'); // Books
+        } else {
+            setBgImage('https://images.unsplash.com/photo-1642543492481-44e81e3914a7?auto=format&fit=crop&q=80&w=2600');
+        }
+    }, [location.pathname]);
 
     const navItems = [
         { icon: <LayoutDashboard size={20} />, label: 'Dashboard', path: '/dashboard' },
@@ -27,9 +54,19 @@ const DashboardLayout = () => {
             position: 'relative',
             minHeight: '100vh',
             display: 'flex',
-            background: 'var(--bg-app)', // Standard app background
+            backgroundImage: `url(${bgImage})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            transition: 'background-image 0.5s ease-in-out'
         }}>
-            {/* ☰ Sidebar - Neo-Shaded Panel */}
+            {/* Dark Overlay for readability - Critical for Glass effect */}
+            <div style={{
+                position: 'absolute', inset: 0,
+                background: 'rgba(5, 5, 8, 0.85)', // Strong overlay to mute the background usage
+                zIndex: 0
+            }}></div>
+
+            {/* ☰ Sidebar - Glass Panel */}
             <aside
                 className="glass-panel"
                 style={{
@@ -37,21 +74,19 @@ const DashboardLayout = () => {
                     width: '300px',
                     height: '100vh',
                     zIndex: 20,
-                    borderRadius: '0', // Full height borders usually look better flat
-                    borderTop: 'none', borderBottom: 'none', borderLeft: 'none', // Only right border
+                    borderRadius: '0',
+                    borderTop: 'none', borderBottom: 'none', borderLeft: 'none',
                     display: 'flex',
                     flexDirection: 'column',
                     padding: '1.5rem',
-                    background: 'var(--bg-panel)', // Solid dark panel
+                    // Background is handled by glass-panel class now (semi-transparent)
                     borderRight: '1px solid var(--border-subtle)',
-                    boxShadow: '4px 0 24px rgba(0,0,0,0.2)'
                 }}
             >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '3rem' }}>
                     <h2 style={{ margin: 0, fontSize: '1.5rem', letterSpacing: '-0.05em', color: 'var(--text-primary)' }}>
                         QWERTY<span style={{ color: 'var(--primary-brand)' }}>.</span>
                     </h2>
-                    {/* Mobile Close Button */}
                     <div className="md:hidden" style={{ display: 'none' }}>
                         <button onClick={() => setSidebarOpen(false)} style={{ background: 'none', border: 'none', color: 'white' }}><X /></button>
                     </div>
@@ -105,7 +140,9 @@ const DashboardLayout = () => {
                 display: 'flex',
                 flexDirection: 'column',
                 height: '100vh',
-                overflow: 'hidden'
+                overflow: 'hidden',
+                position: 'relative',
+                zIndex: 1
             }}>
                 <header style={{
                     display: 'flex',
@@ -113,7 +150,8 @@ const DashboardLayout = () => {
                     alignItems: 'center',
                     padding: '1.5rem 2rem',
                     borderBottom: '1px solid var(--border-subtle)',
-                    background: 'var(--bg-app)', // Blend with body
+                    background: 'rgba(18, 18, 20, 0.4)', // Very sheer glass for header
+                    backdropFilter: 'blur(10px)',
                     zIndex: 10
                 }}>
                     <div>
@@ -121,7 +159,7 @@ const DashboardLayout = () => {
                             {navItems.find(item => item.path === location.pathname)?.label || 'Dashboard Overview'}
                         </h2>
                         <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
-                            Welcome back, Pavan
+                            Welcome back
                         </span>
                     </div>
 
@@ -130,12 +168,11 @@ const DashboardLayout = () => {
                             <Bell size={20} />
                         </button>
                         <div className="desktop-only" style={{ textAlign: 'right', color: 'var(--text-primary)' }}>
-                            <div style={{ fontWeight: 600, fontSize: '0.95rem' }}>Pavan Kumar</div>
-                            <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Premium User</div>
+                            <div style={{ fontWeight: 600, fontSize: '0.95rem' }}>Guest User</div>
+                            <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Free Plan</div>
                         </div>
                         <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'var(--bg-panel-hover)', border: '1px solid var(--border-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            {/* User Avatar Placeholder */}
-                            <span style={{ fontWeight: 700, color: 'var(--primary-brand)' }}>PK</span>
+                            <span style={{ fontWeight: 700, color: 'var(--primary-brand)' }}>GU</span>
                         </div>
                     </div>
                 </header>

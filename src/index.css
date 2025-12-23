@@ -10,6 +10,7 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
+  /* Main Background handled by DashboardLayout now */
   background-color: var(--bg-app);
   color: var(--text-primary);
   font-family: var(--font-primary);
@@ -17,21 +18,24 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* 🧬 Utility - Neo-Shaded Panels (Replaces Glass) */
+/* 🧬 Utility - Neo-Glass Panels */
 .glass-panel {
   background: var(--bg-panel);
   border: var(--border-subtle);
+  backdrop-filter: blur(20px);
+  /* Strong blur for glass effect */
+  -webkit-backdrop-filter: blur(20px);
   border-radius: 16px;
-  box-shadow: var(--shadow-sm);
-  /* Subtle depth */
+  box-shadow: var(--shadow-md);
   position: relative;
   overflow: hidden;
-  /* Clean edges */
 }
 
 .glass-card {
   background: var(--bg-panel);
   border: var(--border-subtle);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-radius: 16px;
   padding: 24px;
   transition: all var(--transition-smooth);
@@ -41,16 +45,16 @@ body {
   background: var(--bg-panel-hover);
   border-color: var(--border-focus);
   transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-lg);
 }
 
-/* Financial Numbers Class - Use this for amounts/data */
+/* Financial Numbers Class */
 .font-mono {
   font-family: var(--font-mono);
   letter-spacing: -0.05em;
 }
 
-/* 🔘 Buttons - Matte & Trustworthy */
+/* 🔘 Buttons */
 .btn-primary {
   background: var(--primary-brand);
   color: #fff;
@@ -62,24 +66,23 @@ body {
   cursor: pointer;
   transition: all var(--transition-fast);
   box-shadow: var(--shadow-sm);
-  /* No heavy glow by default */
 }
 
 .btn-primary:hover {
   filter: brightness(1.1);
   transform: translateY(-1px);
   box-shadow: var(--glow-primary);
-  /* Subtle colored glow on hover only */
 }
 
 .btn-primary:active {
   transform: translateY(0);
 }
 
-/* Secondary Button (Ghost/Outline Style) */
+/* Secondary Button (Glass Style) */
 .btn-secondary {
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.03);
+  /* Very subtle fill */
+  border: 1px solid rgba(255, 255, 255, 0.1);
   color: var(--text-secondary);
   padding: 12px 24px;
   border-radius: 12px;
@@ -93,15 +96,13 @@ body {
 }
 
 .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.05);
-  /* Slight fill */
+  background: rgba(255, 255, 255, 0.08);
   color: var(--text-primary);
-  border-color: var(--text-secondary);
+  border-color: var(--text-primary);
 }
 
 .btn-secondary.active {
-  background: rgba(92, 139, 198, 0.15);
-  /* Muted blue tint */
+  background: rgba(92, 139, 198, 0.2);
   color: var(--primary-brand);
   border-color: var(--primary-brand);
 }
@@ -121,13 +122,12 @@ body {
 }
 
 .btn-icon:hover {
-  background: rgba(255, 255, 255, 0.08);
-  /* Subtle circle bg */
+  background: rgba(255, 255, 255, 0.1);
   color: var(--text-primary);
 }
 
 .btn-icon.danger:hover {
-  background: rgba(198, 92, 92, 0.15);
+  background: rgba(198, 92, 92, 0.2);
   color: var(--accent-red);
 }
 
@@ -137,7 +137,6 @@ h2,
 h3 {
   letter-spacing: -0.03em;
   font-weight: 600;
-  /* Inter SemiBold */
   color: var(--text-primary);
 }
 
@@ -145,7 +144,6 @@ h1 {
   font-size: 2.5rem;
 }
 
-/* Subtle Gradient Text (Optional, keep minimal) */
 .text-gradient {
   background: linear-gradient(to right, var(--text-primary), var(--text-secondary));
   -webkit-background-clip: text;
@@ -153,7 +151,7 @@ h1 {
   -webkit-text-fill-color: transparent;
 }
 
-/* Form Elements Input Style */
+/* Form Elements */
 input,
 select,
 textarea {
@@ -173,6 +171,32 @@ textarea:focus {
   outline: none;
   border-color: var(--primary-brand) !important;
   box-shadow: 0 0 0 1px var(--primary-brand) !important;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @media (min-width: 768px) {

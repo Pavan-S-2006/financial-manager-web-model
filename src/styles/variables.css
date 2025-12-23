@@ -1,15 +1,16 @@
 :root {
-  /* --- Neo-Shaded Palette (Dark Fintech) --- */
+  /* --- Neo-Shaded Glass Palette (Dark Fintech) --- */
 
-  /* Base Backgrounds - Trust-First Dark Charcoal */
+  /* Base Backgrounds - Transparent for Glass Effect */
+  /* Main app bg is usually an image, so this might be the fallback */
   --bg-app: #121214;
-  /* Deepest charcoal, almost black, for main background */
-  --bg-panel: #18191C;
-  /* Slightly lighter charcoal for panels/cards */
-  --bg-panel-hover: #202124;
-  /* Interaction state */
-  --bg-input: #0E0E10;
-  /* Deep inset for inputs */
+
+  /* Panels: Deep Charcoal but with 65% opacity for Glass feel */
+  --bg-panel: rgba(24, 25, 28, 0.65);
+  --bg-panel-hover: rgba(32, 33, 36, 0.75);
+
+  /* Inputs: Deep inset, semi-transparent */
+  --bg-input: rgba(14, 14, 16, 0.6);
 
   /* Primary Typography - Inter (Body/Headings) */
   --font-primary: 'Inter', system-ui, -apple-system, sans-serif;
@@ -25,7 +26,6 @@
   /* Deep Grey for disabled/subtle text */
 
   /* Accents - Muted, Professional, Trustworthy */
-  /* NO NEON. Use these for highlights, buttons, and indicators. */
   --accent-blue: #5C8BC6;
   /* Muted Trust Blue */
   --accent-blue-glow: rgba(92, 139, 198, 0.25);
@@ -46,24 +46,22 @@
   --primary-brand: var(--accent-blue);
   --primary-brand-rgb: 92, 139, 198;
 
-  /* Depth & Shadows - The "Neo-Shaded" Magic */
-  /* Soft, diffused shadows to create elevation without harsh borders */
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.4);
+  /* Depth & Shadows */
+  --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 8px 16px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 16px 32px rgba(0, 0, 0, 0.3);
 
-  /* Inner shadow for "inset" feel (inputs, sinkholes) */
   --shadow-inset: inset 0 2px 4px rgba(0, 0, 0, 0.4);
 
-  /* Glows - Usage: box-shadow for focused/active states only */
-  --glow-primary: 0 0 16px var(--accent-blue-glow);
-  --glow-success: 0 0 16px var(--accent-green-glow);
-  --glow-warning: 0 0 16px var(--accent-amber-glow);
-  --glow-danger: 0 0 16px var(--accent-red-glow);
+  /* Glows */
+  --glow-primary: 0 0 20px var(--accent-blue-glow);
+  --glow-success: 0 0 20px var(--accent-green-glow);
+  --glow-warning: 0 0 20px var(--accent-amber-glow);
+  --glow-danger: 0 0 20px var(--accent-red-glow);
 
-  /* Borders - Very subtle, low contrast */
-  --border-subtle: 1px solid #28282E;
-  --border-focus: 1px solid #3A3A42;
+  /* Borders - Subtle Glass Borders */
+  --border-subtle: 1px solid rgba(255, 255, 255, 0.08);
+  --border-focus: 1px solid rgba(255, 255, 255, 0.15);
 
   /* Transitions */
   --transition-fast: 0.15s ease-out;

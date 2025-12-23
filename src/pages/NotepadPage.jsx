@@ -6,9 +6,7 @@ import {
 const NotepadPage = () => {
     // 1. Core State
     const [expenses, setExpenses] = useState([
-        { id: 1, name: "Grocery shopping", desc: "Weekly supplies", amount: 1200, category: "Food", date: "2024-12-20" },
-        { id: 2, name: "Uber Ride", desc: "Office commute", amount: 350, category: "Transport", date: "2024-12-21" },
-        { id: 3, name: "Netflix Sub", desc: "Monthly bill", amount: 649, category: "Entertainment", date: "2024-11-15" }
+        { id: 1, name: "Example Expense", desc: "Description here", amount: 0, category: "Food", date: new Date().toISOString().split('T')[0] }
     ]);
 
     const [formData, setFormData] = useState({ name: '', desc: '', amount: '', category: 'Food' });
