@@ -1,16 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { User, Mail, Phone, Camera, Lock, Save, Crown, XCircle, CheckCircle } from 'lucide-react';
+import { AuthContext } from '../context/AuthContext';
 
 const ProfilesPage = () => {
-    // 1. Core Profile State
-    const [profile, setProfile] = useState({
-        fullName: 'Guest User',
-        username: 'guest_user',
-        email: 'guest@example.com',
-        contact: '+00 00000 00000',
-        bio: 'Welcome to QWERTY Financial Manager.',
-        avatar: null // Mock
+    // 1. Context
+    const { user, updateUser } = useContext(AuthContext);
+
+    // 2. Local State for form (initialized from Context)
+    const [formData, setFormData] = useState({
+        fullName: '',
+        username: '',
+        email: '',
+        contact: '',
+        bio: '',
+        avatar: null
     });
+
+    useEffect(() => {
+        if (user) {
+            setFormData({
+                fullName: user.fullName || '',
+                username: user.username || '',
+                email: user.email || '',
+                contact: user.contact || '',
+                bio: user.bio || '',
+                avatar: user.avatar || null
+            });
+        }
+    }, [user]);
 
     const [isEditing, setIsEditing] = useState(false);
     const [showSecurityModal, setShowSecurityModal] = useState(false);
@@ -18,16 +35,16 @@ const ProfilesPage = () => {
     const [authError, setAuthError] = useState('');
     const [isSaving, setIsSaving] = useState(false);
 
-    // 2. Handlers
+    // 3. Handlers
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setProfile(prev => ({ ...prev, [name]: value }));
+        setFormData(prev => ({ ...prev, [name]: value }));
     };
 
     const initiateSave = () => {
         // Validation Logic (Basic)
-        if (!profile.fullName || !profile.email || !profile.contact) {
-            alert("Please fill in all required fields.");
+        if (!formData.fullName || !formData.email) {
+            alert("Please fill in required fields (Name, Email).");
             return;
         }
         setShowSecurityModal(true);
@@ -38,12 +55,14 @@ const ProfilesPage = () => {
         // Mock Auth Check
         setTimeout(() => {
             if (password === '1234') { // Mock Pwd
+                // UPDATE CONTEXT
+                updateUser(formData);
+
                 setIsEditing(false);
                 setShowSecurityModal(false);
                 setPassword('');
                 setAuthError('');
                 setIsSaving(false);
-                // In real app, API call here
             } else {
                 setAuthError('Incorrect Password. Please try again.');
                 setIsSaving(false);
@@ -72,7 +91,7 @@ const ProfilesPage = () => {
                             display: 'flex', alignItems: 'center', justifyContent: 'center',
                             fontSize: '1.5rem', fontWeight: 'bold'
                         }}>
-                            {profile.avatar ? <img src={profile.avatar} alt="Profile" style={{ width: '100%', borderRadius: '50%' }} /> : 'PK'}
+                            {formData.avatar ? <img src={formData.avatar} alt="Profile" style={{ width: '100%', borderRadius: '50%' }} /> : (user?.initials || 'PK')}
                         </div>
                         {isEditing && (
                             <button className="btn-icon" style={{
@@ -84,7 +103,7 @@ const ProfilesPage = () => {
                         )}
                     </div>
                     <div>
-                        <h2 style={{ margin: 0 }}>{profile.fullName}</h2>
+                        <h2 style={{ margin: 0 }}>{formData.fullName || 'Guest User'}</h2>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '0.25rem' }}>
                             <Crown size={16} color="var(--accent-amber)" />
                             <span style={{ color: 'var(--accent-amber)', fontWeight: 600, fontSize: '0.9rem' }}>Premium User</span>
@@ -116,7 +135,7 @@ const ProfilesPage = () => {
                             <input
                                 type="text"
                                 name="fullName"
-                                value={profile.fullName}
+                                value={formData.fullName}
                                 onChange={handleChange}
                                 disabled={!isEditing}
                                 style={{ paddingLeft: '40px', width: '100%' }}
@@ -131,7 +150,7 @@ const ProfilesPage = () => {
                             <span style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-secondary)' }}>@</span>
                             <input
                                 type="text"
-                                value={profile.username}
+                                value={formData.username}
                                 disabled={true} // Usually can't change username easily
                                 style={{ paddingLeft: '35px', width: '100%', opacity: 0.7, cursor: 'not-allowed' }}
                             />
@@ -146,7 +165,7 @@ const ProfilesPage = () => {
                             <input
                                 type="email"
                                 name="email"
-                                value={profile.email}
+                                value={formData.email}
                                 onChange={handleChange}
                                 disabled={!isEditing}
                                 style={{ paddingLeft: '40px', width: '100%' }}
@@ -162,7 +181,7 @@ const ProfilesPage = () => {
                             <input
                                 type="tel"
                                 name="contact"
-                                value={profile.contact}
+                                value={formData.contact}
                                 onChange={handleChange}
                                 disabled={!isEditing}
                                 className="font-mono"
@@ -177,7 +196,7 @@ const ProfilesPage = () => {
                         <textarea
                             name="bio"
                             rows="3"
-                            value={profile.bio}
+                            value={formData.bio}
                             onChange={handleChange}
                             disabled={!isEditing}
                             style={{ width: '100%' }}

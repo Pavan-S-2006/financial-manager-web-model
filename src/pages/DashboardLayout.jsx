@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
     LayoutDashboard, X, Settings, LogOut,
     Brain, FlaskConical, Shield, Landmark, Siren,
     Users, Bell, BookOpen
 } from 'lucide-react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 
 const DashboardLayout = () => {
+    const { user, logout } = useContext(AuthContext);
     const [isSidebarOpen, setSidebarOpen] = useState(false);
     const location = useLocation();
 
@@ -128,7 +130,7 @@ const DashboardLayout = () => {
                     <Link to="/dashboard/settings" style={{ display: 'flex', gap: '12px', padding: '12px', color: 'var(--text-secondary)', textDecoration: 'none', alignItems: 'center', fontSize: '0.9rem' }}>
                         <Settings size={20} /> Settings
                     </Link>
-                    <Link to="/" style={{ display: 'flex', gap: '12px', padding: '12px', color: 'var(--accent-red)', textDecoration: 'none', alignItems: 'center', fontSize: '0.9rem' }}>
+                    <Link to="/" onClick={logout} style={{ display: 'flex', gap: '12px', padding: '12px', color: 'var(--accent-red)', textDecoration: 'none', alignItems: 'center', fontSize: '0.9rem' }}>
                         <LogOut size={20} /> Logout
                     </Link>
                 </div>
@@ -168,11 +170,11 @@ const DashboardLayout = () => {
                             <Bell size={20} />
                         </button>
                         <div className="desktop-only" style={{ textAlign: 'right', color: 'var(--text-primary)' }}>
-                            <div style={{ fontWeight: 600, fontSize: '0.95rem' }}>Guest User</div>
+                            <div style={{ fontWeight: 600, fontSize: '0.95rem' }}>{user?.fullName || 'Guest User'}</div>
                             <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Free Plan</div>
                         </div>
                         <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'var(--bg-panel-hover)', border: '1px solid var(--border-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <span style={{ fontWeight: 700, color: 'var(--primary-brand)' }}>GU</span>
+                            <span style={{ fontWeight: 700, color: 'var(--primary-brand)' }}>{user?.initials || 'GU'}</span>
                         </div>
                     </div>
                 </header>
