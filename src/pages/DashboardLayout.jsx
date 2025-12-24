@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import {
     LayoutDashboard, X, Settings, LogOut,
     Brain, FlaskConical, Shield, Landmark, Siren,
-    Users, Bell, BookOpen
+    Users, Bell, BookOpen, Menu
 } from 'lucide-react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
@@ -47,7 +47,6 @@ const DashboardLayout = () => {
         { icon: <Landmark size={20} />, label: 'Assets & Property', path: '/dashboard/assets' },
         { icon: <Siren size={20} />, label: 'Nominee Emergency', path: '/dashboard/emergency' },
         { icon: <Users size={20} />, label: 'Profiles & Controls', path: '/dashboard/profiles' },
-        { icon: <Bell size={20} />, label: 'Smart Notifications', path: '/dashboard/notifications' },
         { icon: <BookOpen size={20} />, label: 'Financial Literacy', path: '/dashboard/literacy' },
     ];
 
@@ -72,26 +71,32 @@ const DashboardLayout = () => {
             <aside
                 className="glass-panel"
                 style={{
-                    position: isSidebarOpen ? 'absolute' : 'relative',
+                    position: 'fixed',
+                    left: isSidebarOpen ? '0' : '-300px',
+                    top: 0,
                     width: '300px',
                     height: '100vh',
-                    zIndex: 20,
+                    zIndex: 1000,
                     borderRadius: '0',
                     borderTop: 'none', borderBottom: 'none', borderLeft: 'none',
                     display: 'flex',
                     flexDirection: 'column',
                     padding: '1.5rem',
-                    // Background is handled by glass-panel class now (semi-transparent)
                     borderRight: '1px solid var(--border-subtle)',
+                    transition: 'left 0.3s ease',
                 }}
             >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '3rem' }}>
                     <h2 style={{ margin: 0, fontSize: '1.5rem', letterSpacing: '-0.05em', color: 'var(--text-primary)' }}>
                         QWERTY<span style={{ color: 'var(--primary-brand)' }}>.</span>
                     </h2>
-                    <div className="md:hidden" style={{ display: 'none' }}>
-                        <button onClick={() => setSidebarOpen(false)} style={{ background: 'none', border: 'none', color: 'white' }}><X /></button>
-                    </div>
+                    <button
+                        onClick={() => setSidebarOpen(false)}
+                        className="btn-icon"
+                        style={{ color: 'var(--text-primary)' }}
+                    >
+                        <X size={20} />
+                    </button>
                 </div>
 
                 <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', flex: 1, paddingBottom: '1rem', overflowY: 'auto' }}>
@@ -156,13 +161,22 @@ const DashboardLayout = () => {
                     backdropFilter: 'blur(10px)',
                     zIndex: 10
                 }}>
-                    <div>
-                        <h2 style={{ margin: 0, fontSize: '1.75rem', color: 'var(--text-primary)' }}>
-                            {navItems.find(item => item.path === location.pathname)?.label || 'Dashboard Overview'}
-                        </h2>
-                        <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
-                            Welcome back
-                        </span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                        <button
+                            className="btn-icon"
+                            onClick={() => setSidebarOpen(!isSidebarOpen)}
+                            style={{ color: 'var(--text-primary)' }}
+                        >
+                            <Menu size={24} />
+                        </button>
+                        <div>
+                            <h2 style={{ margin: 0, fontSize: '1.75rem', color: 'var(--text-primary)' }}>
+                                {navItems.find(item => item.path === location.pathname)?.label || 'Dashboard Overview'}
+                            </h2>
+                            <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+                                Welcome back
+                            </span>
+                        </div>
                     </div>
 
                     <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>

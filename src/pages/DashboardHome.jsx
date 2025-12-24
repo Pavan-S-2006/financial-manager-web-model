@@ -1,75 +1,142 @@
-import React from 'react';
-import { LayoutDashboard, Wallet, LineChart, Activity, ArrowRight } from 'lucide-react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { useFinancialData } from '../context/FinancialContext';
+import { GlassCard, PulseOrb, ProgressBar, NeoButton } from '../components/GlassComponents';
+import { Edit2, PieChart, TrendingUp, Brain } from 'lucide-react';
 
 const DashboardHome = () => {
+    const { netWorth, forecast, assets, transactions, insuranceGaps, literacyState } = useFinancialData();
+
+    // Mock Budget Data (could be moved to Context later)
+    const budgetData = {
+        limit: 5000,
+        spent: transactions.reduce((sum, t) => sum + t.amount, 0),
+    };
+    const budgetPercent = Math.min((budgetData.spent / budgetData.limit) * 100, 100);
+
     return (
-        <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '1.5rem',
-            animation: 'fadeIn 0.5s ease-out'
-        }}>
-            {/* Block 1: Notepad */}
-            <div className="glass-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                <div>
-                    <div style={{ background: 'var(--accent-blue-glow)', width: '48px', height: '48px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem', color: 'var(--accent-blue)' }}>
-                        <Wallet size={24} />
-                    </div>
-                    <h3 style={{ fontSize: '1.25rem', margin: '0 0 0.5rem 0', color: 'var(--text-primary)' }}>Track Spending</h3>
-                    <p style={{ color: 'var(--text-secondary)', margin: 0, fontSize: '0.9rem' }}>Log all your daily expenses & EMIs instantly.</p>
-                </div>
-                <Link to="/dashboard/notepad" className="btn-primary" style={{ marginTop: '2rem', width: '100%', textAlign: 'center', textDecoration: 'none', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px' }}>
-                    Open Notepad <ArrowRight size={18} />
-                </Link>
+        <div style={{ paddingBottom: '2rem' }}>
+            <h1 style={{ marginBottom: '0.5rem' }}>Overview</h1>
+            <div style={{ marginBottom: '2rem', color: 'var(--text-secondary)' }}>
+                Your financial command center.
             </div>
 
-            {/* Block 2: Budgets */}
-            <div className="glass-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                <div>
-                    <div style={{ background: 'var(--accent-red-glow)', width: '48px', height: '48px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem', color: 'var(--accent-red)' }}>
-                        <LayoutDashboard size={24} />
-                    </div>
-                    <h3 style={{ fontSize: '1.25rem', margin: '0 0 0.5rem 0', color: 'var(--text-primary)' }}>Plan Budgets</h3>
-                    <p style={{ color: 'var(--text-secondary)', margin: 0, fontSize: '0.9rem' }}>Allocate monthly funds & track limits.</p>
-                </div>
-                <Link to="/dashboard/budgets" className="btn-secondary" style={{ marginTop: '2rem', width: '100%', textAlign: 'center', textDecoration: 'none' }}>
-                    View Budgets
-                </Link>
-            </div>
+            {/* The 4 Main Pillars Grid */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '2rem' }}>
 
-            {/* Block 3: Investments */}
-            <div className="glass-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                <div>
-                    <div style={{ background: 'var(--accent-green-glow)', width: '48px', height: '48px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem', color: 'var(--accent-green)' }}>
-                        <LineChart size={24} />
+                {/* 1. NOTEPAD (Quick Entry / Sandbox) */}
+                <GlassCard className="pillar-card" style={{ display: 'flex', flexDirection: 'column', gap: '1rem', borderLeft: '4px solid var(--primary-brand)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <h2 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <Edit2 size={24} /> Notepad
+                        </h2>
+                        <Link to="/dashboard/notepad">
+                            <NeoButton variant="secondary" style={{ padding: '6px 12px', fontSize: '0.8rem' }}>Open Full</NeoButton>
+                        </Link>
                     </div>
-                    <h3 style={{ fontSize: '1.25rem', margin: '0 0 0.5rem 0', color: 'var(--text-primary)' }}>Grow Money</h3>
-                    <p style={{ color: 'var(--text-secondary)', margin: 0, fontSize: '0.9rem' }}>Investment sandbox & portfolio analysis.</p>
-                </div>
-                <Link to="/dashboard/invest" className="btn-secondary" style={{ marginTop: '2rem', width: '100%', textAlign: 'center', textDecoration: 'none' }}>
-                    Go to Investments
-                </Link>
-            </div>
+                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+                        Quickly jot down expenses or simulate financial moves.
+                    </p>
+                    <div style={{ background: 'rgba(0,0,0,0.2)', padding: '1rem', borderRadius: '8px', border: '1px dashed var(--border-subtle)' }}>
+                        <span style={{ color: 'var(--text-muted)' }}>Type "Spent $15 on Lunch"...</span>
+                    </div>
+                    <div style={{ marginTop: 'auto' }}>
+                        <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>Recent Log:</div>
+                        {transactions.slice(-2).map(t => (
+                            <div key={t.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                                <span>{t.text}</span>
+                                <span className="font-mono" style={{ color: 'var(--accent-red)' }}>-${t.amount}</span>
+                            </div>
+                        ))}
+                    </div>
+                </GlassCard>
 
-            {/* Block 4: Health Score */}
-            <div className="glass-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', border: '1px solid var(--accent-amber-glow)' }}>
-                <div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                        <div style={{ background: 'var(--accent-amber-glow)', width: '48px', height: '48px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem', color: 'var(--accent-amber)' }}>
-                            <Activity size={24} />
+                {/* 2. MY BUDGETS */}
+                <GlassCard className="pillar-card" style={{ display: 'flex', flexDirection: 'column', gap: '1rem', borderLeft: '4px solid var(--accent-amber)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <h2 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <PieChart size={24} /> My Budgets
+                        </h2>
+                        <Link to="/dashboard/budgets">
+                            <NeoButton variant="secondary" style={{ padding: '6px 12px', fontSize: '0.8rem' }}>Manage</NeoButton>
+                        </Link>
+                    </div>
+                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+                        Monthly spending vs. limits.
+                    </p>
+                    <div style={{ margin: '1rem 0' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+                            <span>Monthly Cap</span>
+                            <span className="font-mono">
+                                ${budgetData.spent} / ${budgetData.limit}
+                            </span>
                         </div>
-                        <span className="font-mono" style={{ background: 'rgba(104, 166, 125, 0.2)', color: 'var(--accent-green)', padding: '4px 8px', borderRadius: '8px', fontSize: '0.8rem', fontWeight: '600' }}>+2.4%</span>
+                        <ProgressBar value={budgetPercent} color={budgetPercent > 90 ? 'var(--accent-red)' : 'var(--accent-green)'} />
+                        <div style={{ textAlign: 'right', fontSize: '0.8rem', marginTop: '0.5rem', color: budgetPercent > 90 ? 'var(--accent-red)' : 'var(--accent-green)' }}>
+                            {budgetPercent > 90 ? 'Critical' : 'Healthy'}
+                        </div>
                     </div>
-                    <h3 style={{ fontSize: '1.25rem', margin: '0 0 0.5rem 0', color: 'var(--text-primary)' }}>Financial Health</h3>
-                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
-                        <span className="font-mono" style={{ fontSize: '2.5rem', fontWeight: 'bold', lineHeight: '1', color: 'var(--text-primary)' }}>82</span>
-                        <span style={{ color: 'var(--accent-green)', fontWeight: '500', fontSize: '0.9rem' }}>Excellent</span>
+                </GlassCard>
+
+                {/* 3. INVESTMENTS */}
+                <GlassCard className="pillar-card" style={{ display: 'flex', flexDirection: 'column', gap: '1rem', borderLeft: '4px solid var(--accent-green)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <h2 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <TrendingUp size={24} /> Investments
+                        </h2>
+                        <Link to="/dashboard/investments">
+                            <NeoButton variant="secondary" style={{ padding: '6px 12px', fontSize: '0.8rem' }}>Portfolio</NeoButton>
+                        </Link>
                     </div>
-                </div>
-                <Link to="/dashboard/score" className="btn-primary" style={{ marginTop: '2rem', width: '100%', background: 'var(--accent-amber)', color: '#121214', textAlign: 'center', textDecoration: 'none', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px' }}>
-                    Check Analysis <ArrowRight size={18} />
-                </Link>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '1rem' }}>
+                        <div className="font-mono" style={{ fontSize: '2.5rem', fontWeight: 'bold' }}>
+                            ${netWorth.toLocaleString()}
+                        </div>
+                        <div style={{ color: 'var(--accent-green)' }}>+12% YTD</div>
+                    </div>
+                    <div>
+                        <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>Top Assets:</div>
+                        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                            {assets.slice(0, 3).map(asset => (
+                                <span key={asset.id} style={{
+                                    padding: '4px 10px', background: 'rgba(255,255,255,0.1)', borderRadius: '15px', fontSize: '0.85rem'
+                                }}>
+                                    {asset.name}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+                </GlassCard>
+
+                {/* 4. ADVISOR (AI) */}
+                <GlassCard className="pillar-card" style={{ display: 'flex', flexDirection: 'column', gap: '1rem', borderLeft: '4px solid var(--accent-blue)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <h2 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <Brain size={24} /> Advisor
+                        </h2>
+                        <Link to="/dashboard/ai-insights">
+                            <NeoButton variant="secondary" style={{ padding: '6px 12px', fontSize: '0.8rem' }}>Ask AI</NeoButton>
+                        </Link>
+                    </div>
+                    <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', background: 'linear-gradient(90deg, rgba(92,139,198,0.1), transparent)', padding: '1rem', borderRadius: '12px' }}>
+                        <PulseOrb state={forecast.trend === 'up' ? 'success' : 'alert'} />
+                        <div style={{ fontStyle: 'italic', color: 'var(--text-primary)', fontSize: '0.95rem' }}>
+                            "{forecast.message}"
+                        </div>
+                    </div>
+
+                    {/* Literacy / Quick Tip */}
+                    <div style={{ marginTop: 'auto', paddingTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                            <span>Financial IQ: Level {literacyState.level}</span>
+                            <span>{literacyState.xp} XP</span>
+                        </div>
+                        <div style={{ marginTop: '0.5rem' }}>
+                            <ProgressBar value={literacyState.xp % 100} color="var(--accent-amber)" />
+                        </div>
+                    </div>
+                </GlassCard>
+
             </div>
         </div>
     );
